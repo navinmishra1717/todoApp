@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "incremental": true /* Enable incremental compilation */,
+    /* Language and Environment */
+    "target": "es6" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    /* Modules */
+    "module": "commonjs" /* Specify what module code is generated. */,
+    "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
+    "baseUrl": "." /* Specify the base directory to resolve non-relative module names. */,
+    "paths": {
+      "@app/*": ["src/*", "dist/*"],
+      "@test/*": ["test/*"]
+    } /* Specify a set of entries that re-map imports to additional lookup locations. */,
+    "rootDirs": [
+      "./src"
+    ] /* Allow multiple folders to be treated as one when resolving modules. */,
+    "typeRoots": [
+      "./src/@types",
+      "./node_modules/@types"
+    ] /* Specify multiple folders that act like `./node_modules/@types`. */,
+    "resolveJsonModule": true /* Enable importing .json files */,
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+    "isolatedModules": true /* Ensure that each file can be safely transpiled without relying on other imports. */,
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    /* Type Checking */
+    "strict": true /* Enable all strict type-checking options. */,
+    /* Skip type checking .d.ts files that are included with TypeScript. */
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts", "tests/**/*.test.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules"]
+}
