@@ -1,11 +1,11 @@
-import { Document, Model, Schema, model } from "mongoose";
+import { Document, Model, Schema, model } from 'mongoose';
 
 export interface ITodo {
   title: string;
   description: string;
 }
 
-type TodoDocument = ITodo & Document;
+export type TodoDocument = ITodo & Document;
 
 interface ITodoModel extends Model<TodoDocument> {}
 
@@ -14,7 +14,4 @@ const schema = new Schema({
   description: { type: String, required: true },
 });
 
-export const todoModel: ITodoModel = model<TodoDocument, ITodoModel>(
-  "Todo",
-  schema,
-);
+export const todoModel: ITodoModel = model<TodoDocument, ITodoModel>('Todo', schema);

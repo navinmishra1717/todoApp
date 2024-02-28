@@ -26,6 +26,7 @@ export async function createTodo(req: Request, res: Response, next: NextFunction
       title,
       description,
     });
+
     return res.status(201).json({
       data: newTodo,
       status: 'ok',

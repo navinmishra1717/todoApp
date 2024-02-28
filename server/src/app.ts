@@ -3,7 +3,7 @@ import { applyMiddleware } from '@app/bootstrap/middlewares';
 import errorHandler from '@app/bootstrap/middlewares/errorHandler';
 import { HttpException } from '@app/exceptions';
 import { router } from './router';
-import MongoConnection from '@app/bootstrap/mongoConnection';
+import dbConnection from './bootstrap/mongoConnection';
 
 const app: Application = express();
 
@@ -12,7 +12,7 @@ const App = async (): Promise<Application> => {
     await applyMiddleware(app);
     app.use('/', router);
     app.use(errorHandler);
-    await MongoConnection.authenticate();
+    dbConnection();
     return app;
   } catch (e: any) {
     throw new HttpException(`Error while starting the server : ${e.message}`);
