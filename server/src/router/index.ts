@@ -13,9 +13,10 @@ router.get('/', (req, res, next) => {
 
 // Book routes
 router.post('/todo', TodoController.createTodo);
-// router.get("/todo/:id", TodoController.findTodoById);
-// router.put("/todo/:id", TodoController.add);
+router.put('/todo/status/:id', TodoController.updateTodoStatus);
+router.put('/todo/:id', TodoController.updateTodo);
 router.get('/todos', TodoController.findTodos);
+router.delete('/todo/:id', TodoController.deleteTodo);
 
 router.use('/*', (req, res, next) => {
   res.status(404).send('Route not found');
