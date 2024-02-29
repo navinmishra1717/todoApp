@@ -11,7 +11,7 @@ router.get('/', (req, res, next) => {
   res.send('health check');
 });
 
-// Book routes
+// Todo routes
 router.post('/todo', TodoController.createTodo);
 router.put('/todo/status/:id', TodoController.updateTodoStatus);
 router.put('/todo/:id', TodoController.updateTodo);

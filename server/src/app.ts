@@ -10,7 +10,7 @@ const app: Application = express();
 const App = async (): Promise<Application> => {
   try {
     await applyMiddleware(app);
-    app.use('/', router);
+    app.use(router);
     app.use(errorHandler);
     dbConnection();
     return app;
