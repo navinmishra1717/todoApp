@@ -7,16 +7,16 @@ import todoService from '@app/services/todoService';
 async function validateCreateTodoRequest(req: Request) {
   const { name, description, addedDate, addedTime } = req.body;
   if (!name) {
-    throw new BadRequestException('Name is required');
+    throw new BadRequestException('name is required');
   }
   if (!description) {
-    throw new BadRequestException('Description is required');
+    throw new BadRequestException('description is required');
   }
   if (!addedDate) {
-    throw new BadRequestException('Added Date is required');
+    throw new BadRequestException('addedDate is required');
   }
   if (!addedTime) {
-    throw new BadRequestException('Added Time is required');
+    throw new BadRequestException('addedTime is required');
   }
 
   return {

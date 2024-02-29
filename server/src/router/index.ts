@@ -1,6 +1,6 @@
-import { NextFunction, Router } from 'express';
-// import swaggerUi from "swagger-ui-express";
-// import apiSpec from "../swagger-doc.json";
+import { Router } from 'express';
+import swaggerUi from 'swagger-ui-express';
+import apiSpec from '../../swagger-doc.json';
 
 import * as TodoController from '../controllers/todo';
 
@@ -18,11 +18,11 @@ router.put('/todo/:id', TodoController.updateTodo);
 router.get('/todos', TodoController.findTodos);
 router.delete('/todo/:id', TodoController.deleteTodo);
 
+if (process.env.APP_ENV === 'development' || process.env.APP_ENV === 'local') {
+  router.use('/dev/api-docs', swaggerUi.serve);
+  router.get('/dev/api-docs', swaggerUi.setup(apiSpec));
+}
+
 router.use('/*', (req, res, next) => {
   res.status(404).send('Route not found');
 });
-
-if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'local') {
-  //   router.use("/dev/api-docs", swaggerUi.serve);
-  //   router.get("/dev/api-docs", swaggerUi.setup(apiSpec));
-}

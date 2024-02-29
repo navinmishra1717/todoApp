@@ -9,7 +9,7 @@ function validateUpdateTodoStatusRequest(req: Request) {
   const { status } = req.body;
 
   if (!status) {
-    throw new BadRequestException('Status is required');
+    throw new BadRequestException('status is required');
   }
 
   const sanitizedId = sanitize(req.params.id, [SanitizeType.trim]);

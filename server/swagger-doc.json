@@ -1,0 +1,152 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Todo App Service",
+    "version": "1.0.0",
+    "description": "Todo App endpoints",
+    "contact": {
+      "email": "navinmishra1717@gmail.com",
+      "name": "Navin Mishra"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Todo Controller",
+      "description": "Todos APIs"
+    }
+  ],
+  "paths": {
+    "/todo": {
+      "post": {
+        "tags": ["Todo Controller"],
+        "summary": "Add a todo",
+        "operationId": "createTodo",
+        "requestBody": {
+          "description": "New Todo",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DraftTodoSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Todo added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftTodoSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/todos": {
+      "get": {
+        "tags": ["Todo Controller"],
+        "summary": "Get all todos from the database",
+        "operationId": "findTodos",
+        "responses": {
+          "200": {
+            "description": "List todos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/TodoSchema"
+                          }
+                        },
+                        "currentPage": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "perPage": {
+                          "type": "integer",
+                          "example": 5
+                        },
+                        "total": {
+                          "type": "integer",
+                          "example": 3
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DraftTodoSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "make a tea"
+          },
+          "description": {
+            "type": "string",
+            "example": "mix water and sugar"
+          },
+          "addedDate": {
+            "type": "date",
+            "example": "2023-12-10"
+          },
+          "addedTime": {
+            "type": "string",
+            "example": "16:30"
+          }
+        }
+      },
+      "TodoSchema": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DraftTodoSchema"
+          }
+        ],
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "5d7224d3b40b1a1a046697dd"
+          },
+          "status": {
+            "type": "string",
+            "example": "DONE"
+          }
+        }
+      }
+    }
+  }
+}
