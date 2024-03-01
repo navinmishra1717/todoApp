@@ -13,8 +13,8 @@ async function validateCreateTodoRequest(req: Request) {
     throw new BadRequestException('description is required');
   }
 
-  if (name.length > 35) {
-    throw new BadRequestException('name must be less than 35 characters');
+  if (name.length > 40) {
+    throw new BadRequestException('name must be less than 40 characters');
   }
 
   return {

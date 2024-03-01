@@ -31,18 +31,16 @@ const TodoPage: React.FC = () => {
         }
     };
 
-    const handleSaveTodo = async (e: React.FormEvent, formData: ITodo): Promise<void> => {
-        e.preventDefault();
+    const handleSaveTodo = async (formData: ITodo): Promise<void> => {
         try {
             const response = await addTodo(formData);
-            setTodos({ ...todos, items: [...todos.items, response.data.data] });
+            setTodos({ ...todos, items: [response.data.data, ...todos.items] });
         } catch (error: any) {
             console.error('Error adding todo:', error);
         }
     };
 
     const handleUpdateTodo = async (todo: ITodo): Promise<void> => {
-        console.log(todo, 'todo');
         try {
             const response = await updateTodo(todo);
             setTodos({ ...todos, items: todos.items.map((t) => (t._id === todo._id ? response.data.data : t)) });
@@ -60,7 +58,7 @@ const TodoPage: React.FC = () => {
         }
     };
 
-    return (
+    return todos.items.length ? (
         <div className="App">
             <h1>My Todos</h1>
             <div className="Card-header">
@@ -71,7 +69,7 @@ const TodoPage: React.FC = () => {
                 <TodoItem key={todo._id} updateTodo={handleUpdateTodo} deleteTodo={handleDeleteTodo} todo={todo} />
             ))}
         </div>
-    );
+    ) : null;
 };
 
 export default TodoPage;

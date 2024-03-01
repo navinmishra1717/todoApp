@@ -5,6 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Moment from 'moment';
 import { ITodo, TodoProps, TodoStatus } from '../../types/todo';
 import { DeleteDialog } from '../../components/DeleteDialog';
+import EditTodo from './EditTodo';
 
 type Props = TodoProps & {
     updateTodo: (todo: ITodo) => void;
@@ -13,6 +14,7 @@ type Props = TodoProps & {
 
 const TodoItem: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
     const [openDelete, setOpenDelete] = React.useState(false);
+    const [openEdit, setOpenEdit] = React.useState(false);
 
     const crossTodo: string = todo.status === TodoStatus.DONE ? `line-through` : '';
     return (
@@ -37,7 +39,7 @@ const TodoItem: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
                 </div>
 
                 <div className="Card-button">
-                    <button onClick={() => updateTodo(todo)} className={'Card-button__done'}>
+                    <button onClick={() => setOpenEdit(true)} className={'Card-button__done'}>
                         <EditIcon />
                     </button>
                     <button className="Card-button__delete" onClick={() => setOpenDelete(true)}>
@@ -46,7 +48,8 @@ const TodoItem: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
                 </div>
             </div>
 
-            <DeleteDialog open={openDelete} setOpen={setOpenDelete} deleteId={todo._id} deletefunction={deleteTodo} />
+            {openEdit ? <EditTodo open={openEdit} setOpen={setOpenEdit} todo={todo} updateFunction={updateTodo} /> : null}
+            {openDelete ? <DeleteDialog open={openDelete} setOpen={setOpenDelete} deleteId={todo._id} deletefunction={deleteTodo} /> : null}
         </>
     );
 };

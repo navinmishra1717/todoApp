@@ -1,5 +1,5 @@
 .App {
-    max-width: 728px;
+    max-width: 1000px;
     margin: 4rem auto;
 }
 
@@ -22,7 +22,7 @@
     background: #444;
     padding: 0.5rem 1rem;
     padding-left: 0px;
-    border-bottom: 6px solid #585454;
+    border-bottom: 8px solid #585454;
 }
 
 .Card-left {
@@ -37,14 +37,14 @@
 
 .Card-text h2 {
     color: #ff9900;
-    max-width: 35ch;
+    max-width: 40ch;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .Card-text span {
-    max-width: 50ch;
+    max-width: 60ch;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

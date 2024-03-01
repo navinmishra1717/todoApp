@@ -7,12 +7,15 @@ import Button from '@mui/material/Button';
 import { TextField } from '@mui/material';
 
 type Props = {
-    addTodo: (formData: ITodo | any) => void;
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    todo: ITodo;
+    updateFunction: (todo: ITodo) => void;
 };
 
-const AddTodo: React.FC<Props> = ({ addTodo }) => {
-    const [formData, setFormData] = useState<ITodo | {}>();
-    const [open, setOpen] = React.useState(false);
+const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
+    console.log(todo, 'todo');
+    const [formData, setFormData] = useState<ITodo>(todo);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -31,27 +34,11 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        addTodo(formData);
+        updateFunction(formData);
         handleClose();
     };
     return (
         <>
-            <Button
-                onClick={handleClickOpen}
-                sx={{
-                    backgroundColor: '#ff9900',
-                    color: '#fff',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '20px',
-                    cursor: 'pointer',
-                    ':hover': {
-                        backgroundColor: '#8d590b'
-                    }
-                }}
-            >
-                Add Todo
-            </Button>
-
             <Dialog open={open} onClose={handleClose}>
                 <DialogContent>
                     <TextField
@@ -60,6 +47,7 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
                         id="name"
                         placeholder="name"
                         type="text"
+                        value={formData.name || ''}
                         fullWidth
                         onChange={(e: any) => handleForm(e)}
                     />
@@ -68,6 +56,7 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
                         margin="dense"
                         id="description"
                         placeholder="description"
+                        value={formData.description || ''}
                         type="text"
                         fullWidth
                         onChange={(e: any) => handleForm(e)}
@@ -103,7 +92,7 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
                             }
                         }}
                     >
-                        Add
+                        Edit
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -111,4 +100,4 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
     );
 };
 
-export default AddTodo;
+export default EditTodo;
