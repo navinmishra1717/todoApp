@@ -1,4 +1,4 @@
-export const APP_PORT = process.env.APP_PORT || 3000;
+export const APP_PORT = process.env.APP_PORT || 4000;
 export const APP_ENV = process.env.APP_ENV || 'local';
 
 // database config

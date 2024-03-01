@@ -1,4 +1,4 @@
-import { ITodoInput, TodoFilterParam, TodoSortParam, TodoStatus } from '@app/models/todo/types';
+import { ITodoInput, TodoDto, TodoFilterParam, TodoSortParam, TodoStatus } from '@app/models/todo/types';
 import { Todo } from '@app/models/todo';
 import { OrderBy, PaginationArgs } from '@app/utils/pagination';
 import { BadRequestException, NotFoundException } from '@app/exceptions';
@@ -9,9 +9,13 @@ interface TodoSearchOption extends PaginationArgs {
 }
 
 class TodoService {
-  async createTodo(data: ITodoInput) {
-    const todo = await Todo.create(data);
-    return todo;
+  async createTodo(data: ITodoInput): Promise<TodoDto> {
+    try {
+      const todo = await Todo.create(data);
+      return todo;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async findPaginatedTodos(searchOptions: TodoSearchOption) {
@@ -42,7 +46,7 @@ class TodoService {
     }
   }
 
-  async findAllTodos() {
+  async findAllTodos(): Promise<TodoDto[]> {
     try {
       const todos = await Todo.find().sort({
         createdAt: -1,
@@ -53,33 +57,33 @@ class TodoService {
     }
   }
 
-  async updateTodo(id: string, data: Partial<ITodoInput>) {
+  async updateTodo(id: string, data: Partial<ITodoInput>): Promise<TodoDto> {
     try {
       const todo = await Todo.findById(id);
       if (!todo) {
         throw new NotFoundException('Todo not found');
       }
       const updatedTodo = await Todo.findOneAndUpdate({ _id: id }, data, { new: true });
-      return updatedTodo;
+      return updatedTodo!;
     } catch (error) {
       throw error;
     }
   }
 
-  async updateTodoStatus(id: string, status: TodoStatus) {
+  async updateTodoStatus(id: string, status: TodoStatus): Promise<TodoDto> {
     try {
       const exists = await Todo.findById(id);
       if (!exists) {
         throw new BadRequestException('Todo not found');
       }
       const todo = await Todo.findOneAndUpdate({ _id: id }, { status }, { new: true });
-      return todo;
+      return todo!;
     } catch (error) {
       throw error;
     }
   }
 
-  async deleteTodo(id: string) {
+  async deleteTodo(id: string): Promise<Boolean> {
     try {
       const todo = await Todo.findById(id);
       if (!todo) {
@@ -92,9 +96,13 @@ class TodoService {
     }
   }
 
-  async findTodoById(id: string) {
-    const todo = await Todo.findOne({ _id: id });
-    return todo;
+  async findTodoById(id: string): Promise<TodoDto | null> {
+    try {
+      const todo = await Todo.findOne({ _id: id });
+      return todo;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

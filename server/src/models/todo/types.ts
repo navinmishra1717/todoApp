@@ -34,4 +34,6 @@ export interface TodoDto {
   status: ITodoAttribute['status'];
   addedDate: ITodoAttribute['addedDate'];
   addedTime: ITodoAttribute['addedTime'];
+  createdAt: ITodoAttribute['createdAt'];
+  updatedAt: ITodoAttribute['updatedAt'];
 }
