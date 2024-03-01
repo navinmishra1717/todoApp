@@ -3,19 +3,16 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from 
 interface Props {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    handleDeletefunction: () => void;
+    deleteId: string;
+    deletefunction: (_id: string) => void;
 }
-export function DeleteDialog({ open, setOpen, handleDeletefunction }: Props) {
+export function DeleteDialog({ open, setOpen, deletefunction, deleteId }: Props) {
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDeleteAction = (id: string) => {
-        handleDeletefunction();
+    const handleDeleteAction = () => {
+        deletefunction(deleteId);
         handleClose();
     };
     return (
@@ -27,7 +24,7 @@ export function DeleteDialog({ open, setOpen, handleDeletefunction }: Props) {
                 <Button onClick={handleClose} color="error">
                     Cancel
                 </Button>
-                <Button onClick={() => handleDeleteAction}>Yes</Button>
+                <Button onClick={handleDeleteAction}>Yes</Button>
             </DialogActions>
         </Dialog>
     );

@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Checkbox from '@mui/material/Checkbox';
 import Moment from 'moment';
 import { ITodo, TodoProps, TodoStatus } from '../../types/todo';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
+import { DeleteDialog } from '../../components/DeleteDialog';
 
 type Props = TodoProps & {
     updateTodo: (todo: ITodo) => void;
@@ -13,19 +13,6 @@ type Props = TodoProps & {
 
 const TodoItem: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
     const [openDelete, setOpenDelete] = React.useState(false);
-
-    const handleCloseDelete = () => {
-        setOpenDelete(false);
-    };
-
-    const handleOpenDelete = () => {
-        setOpenDelete(true);
-    };
-
-    const handleDeleteTodo = () => {
-        deleteTodo(todo._id);
-        handleCloseDelete();
-    };
 
     const crossTodo: string = todo.status === TodoStatus.DONE ? `line-through` : '';
     return (
@@ -53,22 +40,13 @@ const TodoItem: React.FC<Props> = ({ todo, updateTodo, deleteTodo }) => {
                     <button onClick={() => updateTodo(todo)} className={'Card-button__done'}>
                         <EditIcon />
                     </button>
-                    <button className="Card-button__delete" onClick={handleOpenDelete}>
+                    <button className="Card-button__delete" onClick={() => setOpenDelete(true)}>
                         <DeleteIcon />
                     </button>
                 </div>
             </div>
-            <Dialog open={openDelete} onClose={handleCloseDelete}>
-                <DialogContent>
-                    <DialogContentText>Are you sure you want to delete this todo?</DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDelete} color="error">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleDeleteTodo}>Yes</Button>
-                </DialogActions>
-            </Dialog>
+
+            <DeleteDialog open={openDelete} setOpen={setOpenDelete} deleteId={todo._id} deletefunction={deleteTodo} />
         </>
     );
 };
