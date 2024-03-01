@@ -16,9 +16,7 @@ export const addTodo = async (formData: ITodo): Promise<AxiosResponse<ApiDataTyp
         const todo: Omit<ITodo, '_id'> = {
             name: formData.name,
             description: formData.description,
-            status: TodoStatus.UPCOMING,
-            addedDate: formData.addedDate,
-            addedTime: formData.addedTime
+            status: TodoStatus.UPCOMING
         };
         const saveTodo: AxiosResponse<ApiDataType> = await axios.post(baseUrl + '/todo', todo);
         return saveTodo;
@@ -41,11 +39,10 @@ export const updateTodoStatus = async (id: string, status: TodoStatus): Promise<
 
 export const updateTodo = async (todo: ITodo): Promise<AxiosResponse<ApiDataType>> => {
     try {
-        const todoUpdate: Pick<ITodo, 'name' | 'description' | 'addedDate' | 'addedTime'> = {
+        const todoUpdate: Pick<ITodo, 'name' | 'description' | 'status'> = {
             name: todo.name,
             description: todo.description,
-            addedDate: todo.addedDate,
-            addedTime: todo.addedTime
+            status: todo.status
         };
         const updatedTodo: AxiosResponse<ApiDataType> = await axios.put(`${baseUrl}/todo/${todo._id}`, todoUpdate);
         return updatedTodo;

@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import TodoItem from './TodoItem';
 import AddTodo from './AddTodo';
 import { getTodos, addTodo, updateTodo, deleteTodo } from '../../API';
-import { IPaginatedTodos, ITodo, TodoStatus } from '../../types/todo';
+import { ITodos, ITodo, TodoStatus } from '../../types/todo';
 import { SelectChangeEvent } from '@mui/material';
 import SelectTodoStatus from './SelectTodoStatus';
 
 const TodoPage: React.FC = () => {
-    const [todos, setTodos] = useState<IPaginatedTodos>({
+    const [todos, setTodos] = useState<ITodos>({
         items: [],
-        currentPage: 1,
-        perPage: 10,
         total: 0
     });
 
@@ -44,6 +42,7 @@ const TodoPage: React.FC = () => {
     };
 
     const handleUpdateTodo = async (todo: ITodo): Promise<void> => {
+        console.log(todo, 'todo');
         try {
             const response = await updateTodo(todo);
             setTodos({ ...todos, items: todos.items.map((t) => (t._id === todo._id ? response.data.data : t)) });
@@ -62,16 +61,16 @@ const TodoPage: React.FC = () => {
     };
 
     return (
-        <main className="App">
+        <div className="App">
             <h1>My Todos</h1>
             <div className="Card-header">
                 <AddTodo addTodo={handleSaveTodo} />
                 <SelectTodoStatus selectStatus={selectStatus} handleChangeStatus={handleChangeStatus} />
             </div>
-            {todos?.items?.map((todo: ITodo) => (
+            {todos.items?.map((todo: ITodo) => (
                 <TodoItem key={todo._id} updateTodo={handleUpdateTodo} deleteTodo={handleDeleteTodo} todo={todo} />
             ))}
-        </main>
+        </div>
     );
 };
 

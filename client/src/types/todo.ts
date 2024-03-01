@@ -8,14 +8,12 @@ export interface ITodo {
     name: string;
     description: string;
     status: TodoStatus;
-    addedDate: Date;
-    addedTime: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
-export interface IPaginatedTodos {
+export interface ITodos {
     items: ITodo[];
-    currentPage: number;
-    perPage: number;
     total: number;
 }
 
@@ -25,7 +23,7 @@ export interface TodoProps {
 
 export type ListApiDataType = {
     status: string;
-    data: IPaginatedTodos;
+    data: ITodos;
 };
 
 export type DeleteApiDataType = {

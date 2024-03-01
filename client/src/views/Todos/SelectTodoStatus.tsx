@@ -9,11 +9,11 @@ export default function SelectTodoStatus({
     handleChangeStatus: (event: SelectChangeEvent) => void;
 }) {
     return (
-        <FormControl variant="filled" sx={{ m: 1, minWidth: 120, backgroundColor: '#f5f6f7' }}>
-            <InputLabel id="demo-simple-select-filled-label">Status</InputLabel>
+        <FormControl variant="filled" size="small" sx={{ m: 1, minWidth: 120, backgroundColor: '#f5f6f7' }}>
+            <InputLabel id="demo-select-small-label">Status</InputLabel>
             <Select
-                labelId="demo-simple-select-filled-label"
-                id="demo-simple-select-filled"
+                labelId="demo-select-small-label"
+                id="demo-select-small"
                 value={selectStatus}
                 label="Status"
                 onChange={handleChangeStatus}

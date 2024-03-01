@@ -21,11 +21,33 @@
     align-items: center;
     background: #444;
     padding: 0.5rem 1rem;
-    border-bottom: 4px solid #585454;
+    padding-left: 0px;
+    border-bottom: 6px solid #585454;
 }
 
-.Card-text h1 {
+.Card-left {
+    display: flex;
+    align-items: center;
+}
+
+.Card-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.Card-text h2 {
     color: #ff9900;
+    max-width: 35ch;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.Card-text span {
+    max-width: 50ch;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .Card-button button {
@@ -43,7 +65,7 @@
 .Card-button__done {
     border: 1px solid #00aa69;
     color: #00aa69;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
 }
 
 .line-through {
