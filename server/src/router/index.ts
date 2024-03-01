@@ -13,7 +13,6 @@ router.get('/', (req, res, next) => {
 
 // Todo routes
 router.post('/todo', TodoController.createTodo);
-router.put('/todo/status/:id', TodoController.updateTodoStatus);
 router.put('/todo/:id', TodoController.updateTodo);
 router.get('/todos', TodoController.findTodos);
 router.delete('/todo/:id', TodoController.deleteTodo);

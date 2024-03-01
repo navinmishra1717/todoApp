@@ -8,8 +8,6 @@ const schema = new Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     status: { type: String, enum: TodoStatus, default: TodoStatus.UPCOMING },
-    addedDate: { type: Date, required: true, default: new Date() },
-    addedTime: { type: String, required: true },
   },
   {
     collection: 'todos',

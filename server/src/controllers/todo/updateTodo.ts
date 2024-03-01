@@ -1,13 +1,23 @@
 import { Request, Response, NextFunction } from 'express';
-import { SanitizeType, sanitize, sanitizeDate } from '@app/libs/sanitize';
+import { SanitizeType, sanitize } from '@app/libs/sanitize';
 import { BadRequestException } from '@app/exceptions';
 import todoService from '@app/services/todoService';
 import { isMongoId } from '@app/utils/mongoHelper';
+import { TodoStatus } from '@app/models/todo/types';
 
 function validateUpdateTodoStatusRequest(req: Request) {
-  const { name, description, addedDate, addedTime } = req.body;
+  const { name, description, status } = req.body;
 
   const sanitizedId = sanitize(req.params.id, [SanitizeType.trim]);
+
+  let sanitizedStatus;
+
+  if (status) {
+    sanitizedStatus = sanitize<TodoStatus>(status, [SanitizeType.uppercase]);
+    if (!Object.values(TodoStatus).includes(sanitizedStatus)) {
+      throw new BadRequestException('Invalid status');
+    }
+  }
 
   if (!isMongoId(sanitizedId)) {
     throw new BadRequestException('Invalid mongo id');
@@ -17,8 +27,7 @@ function validateUpdateTodoStatusRequest(req: Request) {
     id: sanitizedId,
     ...(name && { name: sanitize(name) }),
     ...(description && { description: sanitize(description) }),
-    ...(addedDate && { addedDate: sanitizeDate(addedDate) }),
-    ...(addedTime && { addedTime: sanitize(addedTime) }),
+    ...(sanitizedStatus && { status: sanitizedStatus }),
   };
 }
 
@@ -31,13 +40,12 @@ function validateUpdateTodoStatusRequest(req: Request) {
  */
 export async function updateTodo(req: Request, res: Response, next: NextFunction) {
   try {
-    const { id, name, description, addedDate, addedTime } = validateUpdateTodoStatusRequest(req);
+    const { id, name, description, status } = validateUpdateTodoStatusRequest(req);
 
     const newTodo = await todoService.updateTodo(id, {
       name,
       description,
-      addedDate,
-      addedTime,
+      status,
     });
 
     return res.status(200).json({

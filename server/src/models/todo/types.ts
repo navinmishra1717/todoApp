@@ -16,8 +16,10 @@ export interface TodoSortParam {
 export interface ITodoInput {
   name: string;
   description: string;
-  addedDate: Date;
-  addedTime: string;
+}
+
+export interface IUpdateTodoInput extends Partial<ITodoInput> {
+  status?: TodoStatus;
 }
 
 export interface ITodoAttribute extends ITodoInput {
@@ -32,8 +34,6 @@ export interface TodoDto {
   name: ITodoAttribute['name'];
   description: ITodoAttribute['description'];
   status: ITodoAttribute['status'];
-  addedDate: ITodoAttribute['addedDate'];
-  addedTime: ITodoAttribute['addedTime'];
   createdAt: ITodoAttribute['createdAt'];
   updatedAt: ITodoAttribute['updatedAt'];
 }

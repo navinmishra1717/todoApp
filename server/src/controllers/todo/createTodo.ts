@@ -5,25 +5,21 @@ import { TodoDto } from '@app/models/todo/types';
 import todoService from '@app/services/todoService';
 
 async function validateCreateTodoRequest(req: Request) {
-  const { name, description, addedDate, addedTime } = req.body;
+  const { name, description } = req.body;
   if (!name) {
     throw new BadRequestException('name is required');
   }
   if (!description) {
     throw new BadRequestException('description is required');
   }
-  if (!addedDate) {
-    throw new BadRequestException('addedDate is required');
-  }
-  if (!addedTime) {
-    throw new BadRequestException('addedTime is required');
+
+  if (name.length > 35) {
+    throw new BadRequestException('name must be less than 35 characters');
   }
 
   return {
     name: sanitize(name),
     description: sanitize(description),
-    addedDate: sanitizeDate(addedDate)!,
-    addedTime: sanitize(addedTime),
   };
 }
 
@@ -37,9 +33,9 @@ async function validateCreateTodoRequest(req: Request) {
 
 export async function createTodo(req: Request, res: Response, next: NextFunction) {
   try {
-    const { name, description, addedDate, addedTime } = await validateCreateTodoRequest(req);
+    const { name, description } = await validateCreateTodoRequest(req);
 
-    const newTodo: TodoDto = await todoService.createTodo({ name, description, addedDate, addedTime });
+    const newTodo: TodoDto = await todoService.createTodo({ name, description });
 
     return res.status(201).json({
       data: newTodo,

@@ -1,4 +1,11 @@
-import { ITodoInput, TodoDto, TodoFilterParam, TodoSortParam, TodoStatus } from '@app/models/todo/types';
+import {
+  ITodoInput,
+  IUpdateTodoInput,
+  TodoDto,
+  TodoFilterParam,
+  TodoSortParam,
+  TodoStatus,
+} from '@app/models/todo/types';
 import { Todo } from '@app/models/todo';
 import { OrderBy, PaginationArgs } from '@app/utils/pagination';
 import { BadRequestException, NotFoundException } from '@app/exceptions';
@@ -29,8 +36,7 @@ class TodoService {
       }
 
       if (sort.date) {
-        sortQuery.addedDate = sort.date === OrderBy.ASC ? 1 : -1;
-        sortQuery.addedTime = sort.date === OrderBy.ASC ? 1 : -1;
+        sortQuery.createdAt = sort.date === OrderBy.ASC ? 1 : -1;
       }
 
       const [todos, total] = await Promise.all([
@@ -46,9 +52,11 @@ class TodoService {
     }
   }
 
-  async findAllTodos(): Promise<TodoDto[]> {
+  async findAllTodos(status?: TodoStatus): Promise<TodoDto[]> {
     try {
-      const todos = await Todo.find().sort({
+      const todos = await Todo.find({
+        ...(status && { status }),
+      }).sort({
         createdAt: -1,
       });
       return todos;
@@ -57,7 +65,7 @@ class TodoService {
     }
   }
 
-  async updateTodo(id: string, data: Partial<ITodoInput>): Promise<TodoDto> {
+  async updateTodo(id: string, data: IUpdateTodoInput): Promise<TodoDto> {
     try {
       const todo = await Todo.findById(id);
       if (!todo) {

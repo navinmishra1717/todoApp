@@ -5,10 +5,7 @@ export enum SanitizeType {
   lowerCase,
 }
 
-export function sanitize<T extends string>(
-  value: any,
-  options: SanitizeType[] = [],
-): T {
+export function sanitize<T extends string>(value: any, options: SanitizeType[] = []): T {
   let returnValue = String(value);
   for (const option of options) {
     if (option === SanitizeType.trim) {

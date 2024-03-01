@@ -19,10 +19,11 @@ function validateFindTodosRequest(req: Request) {
  */
 export async function findTodos(req: Request, res: Response, next: NextFunction) {
   try {
-    const { status, all } = validateFindTodosRequest(req);
+    const { status, all = 'true' } = validateFindTodosRequest(req);
 
     if (all === 'true') {
-      const data = await todoService.findAllTodos();
+      // listing all for current requirement, remove this block for paginated data
+      const data = await todoService.findAllTodos(status);
       return res.status(200).json({
         data: {
           items: data,

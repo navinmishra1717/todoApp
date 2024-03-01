@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { SanitizeType, sanitize } from '@app/libs/sanitize';
-import todoService from '@app/services/todoService';
 import { isMongoId } from '@app/utils/mongoHelper';
 import { BadRequestException } from '@app/exceptions';
+import todoService from '@app/services/todoService';
 
 function validateDeleteTodoRequest(req: Request) {
   const sanitizedId = sanitize(req.params.id, [SanitizeType.trim]);
@@ -20,7 +20,7 @@ function validateDeleteTodoRequest(req: Request) {
  * @param {Request} req request object
  * @param {Response} res response object
  * @param {NextFunction} next next function
- * @returns updated todo
+ * @returns
  */
 export async function deleteTodo(req: Request, res: Response, next: NextFunction) {
   try {
