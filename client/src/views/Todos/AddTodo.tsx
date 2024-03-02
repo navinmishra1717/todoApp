@@ -11,7 +11,10 @@ type Props = {
 };
 
 const AddTodo: React.FC<Props> = ({ addTodo }) => {
-    const [formData, setFormData] = useState<ITodo | {}>();
+    const [formData, setFormData] = useState<ITodo | any>({
+        name: '',
+        description: ''
+    });
     const [open, setOpen] = React.useState(false);
     const [errors, setErrors] = useState({
         name: false,
@@ -28,7 +31,10 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
             name: false,
             description: false
         });
-        setFormData({});
+        setFormData({
+            name: '',
+            description: ''
+        });
     };
 
     const handleForm = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -51,8 +57,21 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        addTodo(formData);
-        handleClose();
+
+        let hasError = false;
+        Object.keys(formData).map((key: string) => {
+            if (formData[key] === '') {
+                hasError = true;
+                setErrors({
+                    ...errors,
+                    [key]: true
+                });
+            }
+        });
+        if (!hasError) {
+            addTodo(formData);
+            handleClose();
+        }
     };
 
     return (
@@ -77,21 +96,22 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
                 <DialogTitle>Add Todo</DialogTitle>
                 <DialogContent>
                     <TextField
-                        autoFocus
+                        label="name"
+                        variant="outlined"
                         margin="dense"
                         id="name"
-                        placeholder="Enter a name"
                         type="text"
                         fullWidth
+                        inputProps={{ maxLength: 60 }}
                         onChange={(e: any) => handleForm(e)}
                         error={errors.name}
                         helperText={errors.name && 'name is required'}
                     />
                     <TextField
-                        autoFocus
+                        label="description"
+                        variant="outlined"
                         margin="dense"
                         id="description"
-                        placeholder="Enter a description"
                         type="text"
                         fullWidth
                         onChange={(e: any) => handleForm(e)}

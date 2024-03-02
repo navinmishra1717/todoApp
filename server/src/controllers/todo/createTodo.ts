@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { BadRequestException } from '@app/exceptions';
-import { sanitize, sanitizeDate } from '@app/libs/sanitize';
+import { sanitize } from '@app/libs/sanitize';
 import { TodoDto } from '@app/models/todo/types';
 import todoService from '@app/services/todoService';
 
@@ -13,8 +13,8 @@ async function validateCreateTodoRequest(req: Request) {
     throw new BadRequestException('description is required');
   }
 
-  if (name.length > 40) {
-    throw new BadRequestException('name must be less than 40 characters');
+  if (name.length > 60) {
+    throw new BadRequestException('name must be less than 60 characters');
   }
 
   return {

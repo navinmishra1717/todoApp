@@ -14,16 +14,11 @@ type Props = {
 };
 
 const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
-    console.log(todo, 'todo');
     const [formData, setFormData] = useState<ITodo>(todo);
     const [errors, setErrors] = useState({
         name: false,
         description: false
     });
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
         setOpen(false);
@@ -62,22 +57,23 @@ const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
                 <DialogTitle>Edit Todo</DialogTitle>
                 <DialogContent>
                     <TextField
-                        autoFocus
+                        label="name"
+                        variant="outlined"
                         margin="dense"
                         id="name"
-                        placeholder="name"
                         type="text"
                         value={formData.name || ''}
                         fullWidth
+                        inputProps={{ maxLength: 60 }}
                         onChange={(e: any) => handleForm(e)}
                         error={errors.name}
                         helperText={errors.name && 'name is required'}
                     />
                     <TextField
-                        autoFocus
+                        label="description"
+                        variant="outlined"
                         margin="dense"
                         id="description"
-                        placeholder="description"
                         value={formData.description || ''}
                         type="text"
                         fullWidth
