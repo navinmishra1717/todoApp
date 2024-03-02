@@ -18,8 +18,8 @@ router.get('/todos', TodoController.findTodos);
 router.delete('/todo/:id', TodoController.deleteTodo);
 
 if (process.env.APP_ENV === 'development' || process.env.APP_ENV === 'local') {
-  router.use('/dev/api-docs', swaggerUi.serve);
-  router.get('/dev/api-docs', swaggerUi.setup(apiSpec));
+  router.use('/api-docs', swaggerUi.serve);
+  router.get('/api-docs', swaggerUi.setup(apiSpec));
 }
 
 router.use('/*', (req, res, next) => {
