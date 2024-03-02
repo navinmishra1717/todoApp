@@ -58,18 +58,23 @@ const TodoPage: React.FC = () => {
         }
     };
 
-    return todos.items.length ? (
+    return (
         <div className="App">
             <h1>My Todos</h1>
+            {todos.items?.length ? (
+                <h3>{`${todos.items.length} Todo${todos.items.length > 1 ? 's' : ''}`}</h3>
+            ) : (
+                <h3 className="">No Todo!</h3>
+            )}
             <div className="Card-header">
                 <AddTodo addTodo={handleSaveTodo} />
                 <SelectTodoStatus selectStatus={selectStatus} handleChangeStatus={handleChangeStatus} />
             </div>
-            {todos.items?.map((todo: ITodo) => (
+            {todos.items.map((todo: ITodo) => (
                 <TodoItem key={todo._id} updateTodo={handleUpdateTodo} deleteTodo={handleDeleteTodo} todo={todo} />
             ))}
         </div>
-    ) : null;
+    );
 };
 
 export default TodoPage;

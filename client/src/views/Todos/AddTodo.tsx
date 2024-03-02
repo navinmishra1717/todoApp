@@ -10,9 +10,21 @@ type Props = {
     addTodo: (formData: ITodo | any) => void;
 };
 
+// type FormKeys = 'name' | 'description';
+
 const AddTodo: React.FC<Props> = ({ addTodo }) => {
     const [formData, setFormData] = useState<ITodo | {}>();
     const [open, setOpen] = React.useState(false);
+    // const [errors, setErrors] = useState({
+    //     name: {
+    //         val: false,
+    //         message: 'name is required'
+    //     },
+    //     description: {
+    //         val: false,
+    //         message: 'description is required'
+    //     }
+    // });
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -31,9 +43,27 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        addTodo(formData);
-        handleClose();
+
+        // const formFields = Object.keys(formData || ({} as ITodo));
+        // const newFormData: any = formData as ITodo;
+
+        // for (let index = 0; index < formFields.length; index++) {
+        //     const currentField = formFields[index] as FormKeys;
+        //     const currentValue = newFormData[currentField];
+        //     if (currentValue === '') {
+        //         setErrors({
+        //             ...errors,
+        //             [currentField]: {
+        //                 val: true,
+        //                 message: `${currentField} is required`
+        //             }
+        //         });
+        //     }
+        // }
+        // addTodo(formData);
+        // handleClose();
     };
+
     return (
         <>
             <Button
@@ -62,6 +92,8 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
                         type="text"
                         fullWidth
                         onChange={(e: any) => handleForm(e)}
+                        // error={errors.name.val}
+                        // helperText={errors.name.val && errors.name.message}
                     />
                     <TextField
                         autoFocus
@@ -71,6 +103,8 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
                         type="text"
                         fullWidth
                         onChange={(e: any) => handleForm(e)}
+                        // error={errors.description.val}
+                        // helperText={errors.description.val && errors.description.message}
                     />
                 </DialogContent>
                 <DialogActions
