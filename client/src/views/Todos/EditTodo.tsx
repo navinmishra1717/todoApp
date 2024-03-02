@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
-import { TextField } from '@mui/material';
+import { DialogTitle, TextField } from '@mui/material';
 
 type Props = {
     open: boolean;
@@ -16,6 +16,10 @@ type Props = {
 const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
     console.log(todo, 'todo');
     const [formData, setFormData] = useState<ITodo>(todo);
+    const [errors, setErrors] = useState({
+        name: false,
+        description: false
+    });
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -23,6 +27,10 @@ const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
 
     const handleClose = () => {
         setOpen(false);
+        setErrors({
+            name: false,
+            description: false
+        });
     };
 
     const handleForm = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -30,6 +38,17 @@ const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
             ...formData,
             [e.currentTarget.id]: e.currentTarget.value
         });
+        if (e.currentTarget.value === '') {
+            setErrors({
+                ...errors,
+                [e.currentTarget.id]: true
+            });
+        } else {
+            setErrors({
+                ...errors,
+                [e.currentTarget.id]: false
+            });
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -40,6 +59,7 @@ const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
     return (
         <>
             <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Edit Todo</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -50,6 +70,8 @@ const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
                         value={formData.name || ''}
                         fullWidth
                         onChange={(e: any) => handleForm(e)}
+                        error={errors.name}
+                        helperText={errors.name && 'name is required'}
                     />
                     <TextField
                         autoFocus
@@ -60,6 +82,8 @@ const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
                         type="text"
                         fullWidth
                         onChange={(e: any) => handleForm(e)}
+                        error={errors.description}
+                        helperText={errors.description && 'description is required'}
                     />
                 </DialogContent>
                 <DialogActions
@@ -84,6 +108,7 @@ const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
                     <Button
                         onClick={handleSubmit}
                         color="primary"
+                        disabled={errors.name || errors.description}
                         sx={{
                             padding: '0.5rem 1rem',
                             borderRadius: '16px',
@@ -92,7 +117,7 @@ const EditTodo: React.FC<Props> = ({ open, setOpen, todo, updateFunction }) => {
                             }
                         }}
                     >
-                        Edit
+                        Save
                     </Button>
                 </DialogActions>
             </Dialog>

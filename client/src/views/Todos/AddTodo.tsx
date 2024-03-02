@@ -4,27 +4,19 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Button from '@mui/material/Button';
-import { TextField } from '@mui/material';
+import { DialogTitle, TextField } from '@mui/material';
 
 type Props = {
     addTodo: (formData: ITodo | any) => void;
 };
 
-// type FormKeys = 'name' | 'description';
-
 const AddTodo: React.FC<Props> = ({ addTodo }) => {
     const [formData, setFormData] = useState<ITodo | {}>();
     const [open, setOpen] = React.useState(false);
-    // const [errors, setErrors] = useState({
-    //     name: {
-    //         val: false,
-    //         message: 'name is required'
-    //     },
-    //     description: {
-    //         val: false,
-    //         message: 'description is required'
-    //     }
-    // });
+    const [errors, setErrors] = useState({
+        name: false,
+        description: false
+    });
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -32,6 +24,11 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
 
     const handleClose = () => {
         setOpen(false);
+        setErrors({
+            name: false,
+            description: false
+        });
+        setFormData({});
     };
 
     const handleForm = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -39,29 +36,23 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
             ...formData,
             [e.currentTarget.id]: e.currentTarget.value
         });
+        if (e.currentTarget.value === '') {
+            setErrors({
+                ...errors,
+                [e.currentTarget.id]: true
+            });
+        } else {
+            setErrors({
+                ...errors,
+                [e.currentTarget.id]: false
+            });
+        }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        // const formFields = Object.keys(formData || ({} as ITodo));
-        // const newFormData: any = formData as ITodo;
-
-        // for (let index = 0; index < formFields.length; index++) {
-        //     const currentField = formFields[index] as FormKeys;
-        //     const currentValue = newFormData[currentField];
-        //     if (currentValue === '') {
-        //         setErrors({
-        //             ...errors,
-        //             [currentField]: {
-        //                 val: true,
-        //                 message: `${currentField} is required`
-        //             }
-        //         });
-        //     }
-        // }
-        // addTodo(formData);
-        // handleClose();
+        addTodo(formData);
+        handleClose();
     };
 
     return (
@@ -83,28 +74,29 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
             </Button>
 
             <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Add Todo</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
                         margin="dense"
                         id="name"
-                        placeholder="name"
+                        placeholder="Enter a name"
                         type="text"
                         fullWidth
                         onChange={(e: any) => handleForm(e)}
-                        // error={errors.name.val}
-                        // helperText={errors.name.val && errors.name.message}
+                        error={errors.name}
+                        helperText={errors.name && 'name is required'}
                     />
                     <TextField
                         autoFocus
                         margin="dense"
                         id="description"
-                        placeholder="description"
+                        placeholder="Enter a description"
                         type="text"
                         fullWidth
                         onChange={(e: any) => handleForm(e)}
-                        // error={errors.description.val}
-                        // helperText={errors.description.val && errors.description.message}
+                        error={errors.description}
+                        helperText={errors.description && 'description is required'}
                     />
                 </DialogContent>
                 <DialogActions
@@ -129,6 +121,7 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
                     <Button
                         onClick={handleSubmit}
                         color="primary"
+                        disabled={errors.name || errors.description}
                         sx={{
                             padding: '0.5rem 1rem',
                             borderRadius: '16px',
@@ -137,7 +130,7 @@ const AddTodo: React.FC<Props> = ({ addTodo }) => {
                             }
                         }}
                     >
-                        Add
+                        Save
                     </Button>
                 </DialogActions>
             </Dialog>
