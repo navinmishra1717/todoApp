@@ -32,7 +32,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DraftTodoSchema"
+                "$ref": "#/components/schemas/AddTodoSchema"
               }
             }
           }
@@ -43,7 +43,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DraftTodoSchema"
+                  "$ref": "#/components/schemas/TodoSchema"
                 }
               }
             }
@@ -104,11 +104,109 @@
           }
         }
       }
+    },
+    "/todo/{id}": {
+      "put": {
+        "tags": ["Todo Controller"],
+        "summary": "Update a todo",
+        "operationId": "updateTodo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Update Todo",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTodoSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Todo updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TodoSchema"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Todo Controller"],
+        "summary": "Delete a todo",
+        "operationId": "deleteTodo",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Todo deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "DraftTodoSchema": {
+      "AddTodoSchema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "make a tea"
+          },
+          "description": {
+            "type": "string",
+            "example": "mix water and sugar"
+          }
+        }
+      },
+      "UpdateTodoSchema": {
         "type": "object",
         "properties": {
           "name": {
@@ -119,20 +217,16 @@
             "type": "string",
             "example": "mix water and sugar"
           },
-          "addedDate": {
-            "type": "date",
-            "example": "2023-12-10"
-          },
-          "addedTime": {
+          "status": {
             "type": "string",
-            "example": "16:30"
+            "example": "DONE | UPCOMING"
           }
         }
       },
       "TodoSchema": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/DraftTodoSchema"
+            "$ref": "#/components/schemas/AddTodoSchema"
           }
         ],
         "type": "object",
@@ -144,6 +238,14 @@
           "status": {
             "type": "string",
             "example": "DONE"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2024-03-02T11:20:26.270+00:00"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2024-03-02T11:20:26.270+00:00"
           }
         }
       }
