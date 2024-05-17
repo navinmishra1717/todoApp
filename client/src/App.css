@@ -85,3 +85,20 @@ h3 {
     z-index: 1301;
     width: '100%';
 }
+
+.user-table {
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-data {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-section {
+    display: flex;
+    margin-top: 16px;
+    max-width: 120px;
+    justify-content: space-between;
+}
